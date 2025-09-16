@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/dashboard_data')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('total-employees').innerText = data.employee_count;
+                    const recentHiresList = document.getElementById('recent-hires');
+                    recentHiresList.innerHTML = '';
+                    data.recent_hires.forEach(employee => {
+                        const li = document.createElement('li');
+                        li.innerText = `${employee.name} (${employee.date_of_joining})`;
+                        recentHiresList.appendChild(li);
+                    });
+                    const anniversariesList = document.getElementById('upcoming-anniversaries');
+                    anniversariesList.innerHTML = '';
+                    data.upcoming_anniversaries.forEach(employee => {
+                        const li = document.createElement('li');
+                        li.innerText = `${employee.name} - ${employee.joining_date}`;
+                        anniversariesList.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Error fetching dashboard data:', error));
+        });
+    </script>
+    <style>
+        body {
+            background: url('https://www.pockethrms.com/wp-content/uploads/2022/01/Happy-Workforce.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-blue-900 text-white py-6 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-4xl font-extrabold">Employee Management Dashboard</h1>
+            <!-- Button -->
+            <a href="{{ url_for('logout') }}" class="text-lg text-white bg-red-600 hover:bg-red-700 transition-colors duration-300 font-semibold px-6 py-3 rounded-lg shadow-lg">
+                Logout
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex flex-col items-center justify-center min-h-screen px-4 py-8">
+        <div class="w-full max-w-6xl bg-white shadow-xl rounded-lg p-8 mb-8">
+            <h2 class="text-3xl font-semibold mb-6 text-gray-800">Dashboard Overview</h2>
+            
+            <!-- Statistics -->
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-6">
+                <!-- Total Employees -->
+                <div class="bg-blue-100 p-6 rounded-lg shadow-md flex flex-col items-center">
+                    <h3 class="text-2xl font-medium text-blue-700">Total Employees</h3>
+                    <p id="total-employees" class="text-3xl font-bold text-gray-800">Loading...</p>
+                </div>
+                <!-- Recent Hires -->
+                <div class="bg-green-100 p-6 rounded-lg shadow-md flex flex-col items-center">
+                    <h3 class="text-2xl font-medium text-green-700">Recent Hires</h3>
+                    <ul id="recent-hires" class="list-disc list-inside text-gray-800">
+                        <!-- Filled dynamically -->
+                    </ul>
+                </div>
+                <!-- Upcoming Anniversaries -->
+                <div class="bg-yellow-100 p-6 rounded-lg shadow-md flex flex-col items-center">
+                    <h3 class="text-2xl font-medium text-yellow-700">Upcoming Anniversaries</h3>
+                    <ul id="upcoming-anniversaries" class="list-disc list-inside text-gray-800">
+                        <!-- Filled dynamically -->
+                    </ul>
+                </div>
+                <!-- Chart Button -->
+                <div class="bg-purple-100 p-6 rounded-lg shadow-md flex flex-col items-center">
+                    <h3 class="text-2xl font-medium text-purple-700">View Chart</h3>
+                    <a href="{{ url_for('chart') }}" class="text-lg text-white bg-purple-600 hover:bg-purple-700 transition-colors duration-300 font-semibold px-6 py-3 rounded-lg shadow-lg mt-2">
+                        View Chart
+                    </a>
+                </div>
+                <!-- Inventory Button -->
+                <div class="bg-teal-100 p-6 rounded-lg shadow-md flex flex-col items-center">
+                    <h3 class="text-2xl font-medium text-teal-700">Inventory Management</h3>
+                    <a href="{{ url_for('inventory') }}" class="text-lg text-white bg-teal-600 hover:bg-teal-700 transition-colors duration-300 font-semibold px-6 py-3 rounded-lg shadow-lg mt-2">
+                        Manage Inventory
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-6 mt-6">
+                <a href="{{ url_for('add_employee') }}" class="text-lg text-white bg-blue-700 hover:bg-blue-800 transition-colors duration-300 font-semibold px-6 py-3 rounded-lg shadow-lg">
+                    Add Employee
+                </a>
+                <a href="{{ url_for('list_employees') }}" class="text-lg text-white bg-blue-700 hover:bg-blue-800 transition-colors duration-300 font-semibold px-6 py-3 rounded-lg shadow-lg">
+                    List All Employees
+                </a>
+                <!-- <a href="{{ url_for('document_management') }}" class="text-lg text-white bg-gray-700 hover:bg-gray-800 transition-colors duration-300 font-semibold px-6 py-3 rounded-lg shadow-lg">
+                    Document Management
+                </a> -->
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        {% if session.get('notification') %}
+        <div id="notification" class="fixed top-5 right-5 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg opacity-0 transition-opacity duration-500 ease-in-out">
+            {{ session['notification'] }}
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var notification = document.getElementById('notification');
+                if (notification) {
+                    notification.classList.add('opacity-100');
+                    setTimeout(function() {
+                        notification.classList.remove('opacity-100');
+                        setTimeout(function() {
+                            notification.style.display = 'none';
+                        }, 500);
+                    }, 3000);
+                }
+            });
+        </script>
+        {% endif %}
+    </main>
+</body>
+</html>

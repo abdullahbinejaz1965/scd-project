@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Sharing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans flex flex-col min-h-screen">
+    <header class="bg-blue-900 text-white py-6 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold">Document Sharing</h1>
+            <a href="{{ url_for('document_storage') }}" class="text-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-300 font-semibold px-6 py-3 rounded-lg shadow-lg">
+                Document Storage
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center px-4 py-8">
+        <div class="w-full max-w-3xl bg-white shadow-xl rounded-lg p-8">
+            <h2 class="text-2xl font-bold mb-6">Share Document</h2>
+            <form method="POST">
+                <div class="mb-4">
+                    <label for="document_id" class="block text-gray-700">Document:</label>
+                    <select id="document_id" name="document_id" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                        <!-- Document options will be dynamically populated -->
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="recipient" class="block text-gray-700">Share With:</label>
+                    <select id="recipient" name="recipient" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg" multiple required>
+                        <!-- Recipient options will be dynamically populated -->
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="permissions" class="block text-gray-700">Permissions:</label>
+                    <select id="permissions" name="permissions" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                        <option value="view">View Only</option>
+                        <option value="edit">Edit</option>
+                    </select>
+                </div>
+                <button type="submit" class="text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-300 font-semibold px-6 py-3 rounded-lg shadow-lg">
+                    Share Document
+                </button>
+            </form>
+            
+            <h2 class="text-2xl font-bold mt-8 mb-6">Shared Documents</h2>
+            <ul class="space-y-4">
+                <!-- Shared document items will be dynamically populated -->
+            </ul>
+        </div>
+    </main>
+</body>
+</html>

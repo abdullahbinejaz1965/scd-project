@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('https://www.example.com/your-background-image.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-900 text-white py-6 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold">Inventory List</h1>
+            <a href="{{ url_for('add_inventory') }}" class="text-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-300 font-semibold px-6 py-3 rounded-lg shadow-lg">
+                Add Inventory
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center px-4 py-8">
+        <div class="w-full max-w-4xl bg-white shadow-xl rounded-lg p-8">
+            <!-- Back Button -->
+            <a href="{{ url_for('inventory') }}" class="text-blue-600 hover:text-blue-700 flex items-center mb-6">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
+            </a>
+            
+            <!-- Inventory List -->
+            <div class="relative overflow-x-auto">
+                <table class="w-full text-left border border-gray-300 rounded-lg bg-gray-50 shadow-md">
+                    <thead class="bg-blue-600 text-white">
+                        <tr>
+                            <th class="py-3 px-4 border-b border-gray-300">Name</th>
+                            <th class="py-3 px-4 border-b border-gray-300">Quantity</th>
+                            <th class="py-3 px-4 border-b border-gray-300">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in inventory_items %}
+                        <tr class="hover:bg-gray-100 transition-colors duration-300 ease-in-out">
+                            <td class="py-3 px-4 border-b border-gray-200">{{ item.name }}</td>
+                            <td class="py-3 px-4 border-b border-gray-200">{{ item.quantity }}</td>
+                            <td class="py-3 px-4 border-b border-gray-200">{{ item.description }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <!-- No Items Found -->
+                {% if not inventory_items %}
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <p class="text-gray-600">No inventory items available.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+</body>
+</html>

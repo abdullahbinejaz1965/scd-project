@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Inventory List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('https://www.example.com/your-background-image.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans flex flex-col min-h-screen">
+    <header class="bg-blue-900 text-white py-6 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold">Employee Inventory List</h1>
+            <a href="{{ url_for('inventory') }}" class="text-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-300 font-semibold px-6 py-3 rounded-lg shadow-lg">
+                Back to Dashboard
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center px-4 py-8">
+        <div class="w-full max-w-6xl bg-white shadow-xl rounded-lg p-8">
+            <table class="w-full border-collapse bg-white">
+                <thead>
+                    <tr class="bg-blue-600 text-white">
+                        <th class="p-4 border-b border-gray-300 text-left">Employee</th>
+                        <th class="p-4 border-b border-gray-300 text-left">Inventory</th>
+                        <th class="p-4 border-b border-gray-300 text-left">Assigned Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for assignment in assignments %}
+                    <tr class="hover:bg-gray-100">
+                        <td class="p-4 border-b border-gray-300">{{ assignment.employee_name }}</td>
+                        <td class="p-4 border-b border-gray-300">{{ assignment.inventory_name }}</td>
+                        <td class="p-4 border-b border-gray-300">{{ assignment.assigned_date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>

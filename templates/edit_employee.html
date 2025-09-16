@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Employee</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .error-message {
+            color: #dc2626; /* Tailwind red-600 */
+            font-size: 0.875rem; /* text-sm */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans flex flex-col items-center p-6">
+
+    <header class="w-full bg-blue-800 text-white p-6 mb-8 shadow-md">
+        <h1 class="text-3xl font-semibold text-center">Edit Employee</h1>
+    </header>
+
+    <main class="w-full max-w-2xl bg-white p-8 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-gray-700 mb-6">Employee Details</h2>
+        
+        <!-- Notification -->
+        <div id="notification" class="hidden bg-blue-600 text-white px-4 py-2 rounded-lg mb-4">
+            <span id="notification-text"></span>
+        </div>
+
+        <form id="employee-form" action="{{ url_for('edit_employee', id=employee.id) }}" method="POST">
+            <div class="mb-4">
+                <label for="name" class="block text-gray-600 font-medium mb-2">Name:</label>
+                <input type="text" id="name" name="name" value="{{ employee.name }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <p id="name-error" class="error-message hidden">Name cannot contain numbers.</p>
+            </div>
+
+            <div class="mb-4">
+                <label for="email" class="block text-gray-600 font-medium mb-2">Email:</label>
+                <input type="email" id="email" name="email" value="{{ employee.email }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <p id="email-error" class="error-message hidden">Please enter a valid email address.</p>
+            </div>
+
+            <div class="mb-4">
+                <label for="year_of_birth" class="block text-gray-600 font-medium mb-2">Year of Birth:</label>
+                <input type="number" id="year_of_birth" name="year_of_birth" value="{{ employee.year_of_birth }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" min="1900" max="2100" required>
+                <p id="year-error" class="error-message hidden">Please enter a valid year.</p>
+            </div>
+
+            <div class="mb-4">
+                <label for="qualification" class="block text-gray-600 font-medium mb-2">Qualification:</label>
+                <input type="text" id="qualification" name="qualification" value="{{ employee.qualification }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <p id="qualification-error" class="error-message hidden">Qualification cannot contain numbers.</p>
+            </div>
+
+            <div class="mb-4">
+                <label for="salary" class="block text-gray-600 font-medium mb-2">Salary:</label>
+                <input type="number" id="salary" name="salary" value="{{ employee.salary }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <p id="salary-error" class="error-message hidden">Please enter a valid salary.</p>
+            </div>
+
+            <div class="mb-4">
+                <label for="job_title" class="block text-gray-600 font-medium mb-2">Job Title:</label>
+                <input type="text" id="job_title" name="job_title" value="{{ employee.job_title }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <p id="job-title-error" class="error-message hidden">Job title cannot contain numbers.</p>
+            </div>
+
+            <div class="mb-6">
+                <label for="date_of_joining" class="block text-gray-600 font-medium mb-2">Date of Joining:</label>
+                <input type="date" id="date_of_joining" name="date_of_joining" value="{{ employee.date_of_joining }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <p id="date-error" class="error-message hidden">Please enter a valid date.</p>
+            </div>
+
+            <div class="mb-4">
+                <label for="department" class="block text-gray-600 font-medium mb-2">Department:</label>
+                <input type="text" id="department" name="department" value="{{ employee.department }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <p id="department-error" class="error-message hidden">Department cannot be empty.</p>
+            </div>
+
+            <div class="mb-4">
+                <label for="status" class="block text-gray-600 font-medium mb-2">Status:</label>
+                <select id="status" name="status" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <option value="" disabled>Select Status</option>
+                    <option value="Active" {% if employee.status == 'Active' %}selected{% endif %}>Active</option>
+                    <option value="Inactive" {% if employee.status == 'Inactive' %}selected{% endif %}>Inactive</option>
+                </select>
+                <p id="status-error" class="error-message hidden">Please select a valid status.</p>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                Update Employee
+            </button>
+        </form>
+
+        <a href="{{ url_for('list_employees') }}" class="block mt-6 text-blue-600 hover:underline">Back to Employee List</a>
+    </main>
+
+    <script>
+        document.getElementById('employee-form').addEventListener('submit', function(event) {
+            let valid = true;
+            let notification = document.getElementById('notification');
+            let notificationText = document.getElementById('notification-text');
+            
+            // Clear previous errors
+            document.querySelectorAll('.error-message').forEach(el => el.classList.add('hidden'));
+
+            // Validate Name
+            const name = document.getElementById('name').value;
+            if (/\d/.test(name)) {
+                document.getElementById('name-error').classList.remove('hidden');
+                valid = false;
+            }
+
+            // Validate Email
+            const email = document.getElementById('email').value;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById('email-error').classList.remove('hidden');
+                valid = false;
+            }
+
+            // Validate Year of Birth
+            const yearOfBirth = document.getElementById('year_of_birth').value;
+            if (yearOfBirth < 1900 || yearOfBirth > 2100) {
+                document.getElementById('year-error').classList.remove('hidden');
+                valid = false;
+            }
+
+            // Validate Qualification
+            const qualification = document.getElementById('qualification').value;
+            if (/\d/.test(qualification)) {
+                document.getElementById('qualification-error').classList.remove('hidden');
+                valid = false;
+            }
+
+            // Validate Salary
+            const salary = document.getElementById('salary').value;
+            if (salary <= 0) {
+                document.getElementById('salary-error').classList.remove('hidden');
+                valid = false;
+            }
+
+            // Validate Job Title
+            const jobTitle = document.getElementById('job_title').value;
+            if (/\d/.test(jobTitle)) {
+                document.getElementById('job-title-error').classList.remove('hidden');
+                valid = false;
+            }
+
+            // Validate Date of Joining
+            const dateOfJoining = document.getElementById('date_of_joining').value;
+            if (!dateOfJoining) {
+                document.getElementById('date-error').classList.remove('hidden');
+                valid = false;
+            }
+
+            // Validate Department
+            const department = document.getElementById('department').value;
+            if (!department) {
+                document.getElementById('department-error').classList.remove('hidden');
+                valid = false;
+            }
+
+            // Validate Status
+            const status = document.getElementById('status').value;
+            if (!status) {
+                document.getElementById('status-error').classList.remove('hidden');
+                valid = false;
+            }
+
+            // Show notification if invalid
+            if (!valid) {
+                event.preventDefault();
+                notificationText.textContent = 'Please correct the errors in the form.';
+                notification.classList.remove('hidden');
+            }
+        });
+    </script>
+
+</body>
+</html>

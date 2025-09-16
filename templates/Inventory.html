@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: url('https://www.pockethrms.com/wp-content/uploads/2022/01/Happy-Workforce.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-blue-900 text-white py-6 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-4xl font-extrabold">Inventory Management</h1>
+            <!-- Button -->
+            <a href="{{ url_for('index') }}" class="text-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-300 font-semibold px-6 py-3 rounded-lg shadow-lg">
+                Back to Dashboard
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex flex-col items-center justify-center min-h-screen px-4 py-8">
+        <div class="w-full max-w-4xl bg-white shadow-xl rounded-lg p-8 mb-8">
+            <h2 class="text-3xl font-semibold mb-6 text-gray-800">Manage Inventory</h2>
+
+            <!-- Links to Inventory Management Pages -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Add Inventory -->
+                <div class="bg-blue-100 p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-medium text-blue-700 mb-4">Add Inventory</h3>
+                    <a href="{{ url_for('add_inventory') }}" class="text-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-300 font-semibold px-6 py-3 rounded-lg shadow-lg">
+                        Go to Add Inventory
+                    </a>
+                </div>
+
+                <!-- Inventory List -->
+                <div class="bg-green-100 p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-medium text-green-700 mb-4">Inventory List</h3>
+                    <a href="{{ url_for('inventory_list') }}" class="text-lg text-white bg-green-600 hover:bg-green-700 transition-colors duration-300 font-semibold px-6 py-3 rounded-lg shadow-lg">
+                        View Inventory List
+                    </a>
+                </div>
+
+                <!-- Assign Inventory -->
+                <div class="bg-yellow-100 p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-medium text-yellow-700 mb-4">Assign Inventory</h3>
+                    <a href="{{ url_for('assign_inventory') }}" class="text-lg text-white bg-yellow-600 hover:bg-yellow-700 transition-colors duration-300 font-semibold px-6 py-3 rounded-lg shadow-lg">
+                        Go to Assign Inventory
+                    </a>
+                </div>
+
+                <!-- Employee Inventory List -->
+                <div class="bg-purple-100 p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-medium text-purple-700 mb-4">Employee Inventory List</h3>
+                    <a href="{{ url_for('employee_inventory_list') }}" class="text-lg text-white bg-purple-600 hover:bg-purple-700 transition-colors duration-300 font-semibold px-6 py-3 rounded-lg shadow-lg">
+                        View Employee Inventory List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

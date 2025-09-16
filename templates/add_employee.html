@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Employee</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(event) {
+                let valid = true;
+                const errors = [];
+
+                // Validate Name
+                const nameInput = document.getElementById('name');
+                if (/[\d]/.test(nameInput.value)) {
+                    errors.push("Name cannot contain numbers.");
+                    valid = false;
+                }
+
+                // Validate Email
+                const emailInput = document.getElementById('email');
+                if (!emailInput.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                    errors.push("Invalid email format.");
+                    valid = false;
+                }
+
+                // Validate Salary
+                const salaryInput = document.getElementById('salary');
+                if (salaryInput.value <= 0) {
+                    errors.push("Salary must be a positive number.");
+                    valid = false;
+                }
+
+                // Validate Qualification
+                const qualificationInput = document.getElementById('qualification');
+                if (/[\d]/.test(qualificationInput.value)) {
+                    errors.push("Qualification cannot contain numbers.");
+                    valid = false;
+                }
+
+                // Validate Job Title
+                const jobTitleInput = document.getElementById('job_title');
+                if (/[\d]/.test(jobTitleInput.value)) {
+                    errors.push("Job Title cannot contain numbers.");
+                    valid = false;
+                }
+
+                // Validate Department
+                const departmentInput = document.getElementById('department');
+                if (/[\d]/.test(departmentInput.value)) {
+                    errors.push("Department cannot contain numbers.");
+                    valid = false;
+                }
+
+                // Show errors and prevent form submission if invalid
+                if (!valid) {
+                    event.preventDefault();
+                    alert(errors.join('\n'));
+                }
+            });
+        });
+    </script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Header -->
+    <div class="bg-blue-800 text-white p-6 shadow-md">
+        <h1 class="text-3xl font-bold text-center">Add Employee</h1>
+    </div>
+
+    <!-- Form Section -->
+    <div class="max-w-4xl mx-auto mt-10">
+        <div class="bg-white shadow-lg rounded-lg p-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b-2 pb-2 border-blue-800">Employee Details</h2>
+
+            <!-- Employee Form -->
+            <form action="{{ url_for('add_employee') }}" method="POST" class="space-y-6">
+                <div class="grid grid-cols-2 gap-6">
+                    <!-- ID -->
+                    <div>
+                        <label for="id" class="block text-lg font-semibold text-gray-700">ID</label>
+                        <input type="number" id="id" name="id" required class="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Name -->
+                    <div>
+                        <label for="name" class="block text-lg font-semibold text-gray-700">Name</label>
+                        <input type="text" id="name" name="name" required class="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-lg font-semibold text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" required class="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Year of Birth -->
+                    <div>
+                        <label for="year_of_birth" class="block text-lg font-semibold text-gray-700">Year of Birth</label>
+                        <input type="number" id="year_of_birth" name="year_of_birth" required class="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Qualification -->
+                    <div>
+                        <label for="qualification" class="block text-lg font-semibold text-gray-700">Qualification</label>
+                        <input type="text" id="qualification" name="qualification" required pattern="[A-Za-z\s]+" title="Qualification can only contain letters and spaces" class="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Salary -->
+                    <div>
+                        <label for="salary" class="block text-lg font-semibold text-gray-700">Salary</label>
+                        <input type="number" id="salary" name="salary" required class="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Job Title -->
+                    <div>
+                        <label for="job_title" class="block text-lg font-semibold text-gray-700">Job Title</label>
+                        <input type="text" id="job_title" name="job_title" required pattern="[A-Za-z\s]+" title="Job Title can only contain letters and spaces" class="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Date of Joining -->
+                    <div>
+                        <label for="date_of_joining" class="block text-lg font-semibold text-gray-700">Date of Joining</label>
+                        <input type="date" id="date_of_joining" name="date_of_joining" required class="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Department -->
+                    <div>
+                        <label for="department" class="block text-lg font-semibold text-gray-700">Department</label>
+                        <input type="text" id="department" name="department" required pattern="[A-Za-z\s]+" title="Department can only contain letters and spaces" class="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Status -->
+                    <div>
+                        <label for="status" class="block text-lg font-semibold text-gray-700">Status</label>
+                        <select id="status" name="status" required class="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="on_leave">On Leave</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                    <input type="submit" value="Add Employee" class="w-full bg-blue-800 text-white py-3 rounded-lg font-bold text-lg hover:bg-blue-900 cursor-pointer">
+                </div>
+            </form>
+
+            <!-- Back Button -->
+            <div class="mt-4">
+                <a href="{{ url_for('index') }}" class="block w-full text-center text-blue-800 hover:text-blue-600">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

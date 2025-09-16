@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Employees</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <!-- Header -->
+    <header class="bg-blue-800 text-white p-6 shadow-md">
+        <h1 class="text-3xl font-bold text-center">Employee List</h1>
+    </header>
+
+    <!-- Table Section -->
+    <main class="max-w-7xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
+        <table class="w-full border-collapse border border-gray-300">
+            <thead class="bg-blue-800 text-white">
+                <tr>
+                    <th class="px-6 py-3 border-b text-left">ID</th>
+                    <th class="px-6 py-3 border-b text-left">Name</th>
+                    <th class="px-6 py-3 border-b text-left">Email</th>
+                    <th class="px-6 py-3 border-b text-left">Job Title</th>
+                    <th class="px-6 py-3 border-b text-left">Department</th>
+                    <th class="px-6 py-3 border-b text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% for employee in employees %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 text-gray-700 text-left">{{ employee.id }}</td>
+                    <td class="px-6 py-4 text-gray-700 text-left">{{ employee.name }}</td>
+                    <td class="px-6 py-4 text-gray-700 text-left">{{ employee.email }}</td>
+                    <td class="px-6 py-4 text-gray-700 text-left">{{ employee.job_title }}</td>
+                    <td class="px-6 py-4 text-gray-700 text-left">{{ employee.department }}</td>
+                    <td class="px-6 py-4 text-center">
+                        <!-- View Profile Button -->
+                        <a href="{{ url_for('employee', id=employee.id) }}" class="text-green-600 hover:text-green-800 font-semibold">View Profile</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+
+    <!-- Back to Home Button -->
+    <footer class="flex justify-center mt-8">
+        <a href="{{ url_for('index') }}" class="bg-blue-800 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-blue-700">Back to Home</a>
+    </footer>
+
+</body>
+</html>

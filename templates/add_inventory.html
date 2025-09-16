@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Inventory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('https://www.example.com/your-background-image.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans flex flex-col min-h-screen">
+    <header class="bg-blue-900 text-white py-6 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold">Add Inventory</h1>
+        </div>
+    </header>
+    
+    <main class="flex-grow flex items-center justify-center px-4 py-8">
+        <div class="w-full max-w-md bg-white shadow-xl rounded-lg p-8">
+            <a href="{{ url_for('inventory') }}" class="text-blue-600 hover:text-blue-700 flex items-center mb-6">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Inventory
+            </a>
+            <form method="POST" class="space-y-6" onsubmit="return validateForm()">
+                <!-- Name Input -->
+                <div class="flex flex-col">
+                    <label for="name" class="text-lg font-semibold text-gray-700">Name:</label>
+                    <input type="text" id="name" name="name" required pattern="[A-Za-z\s]+" title="Name can only contain letters and spaces"
+                        class="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out">
+                </div>
+
+                <!-- Quantity Input -->
+                <div class="flex flex-col">
+                    <label for="quantity" class="text-lg font-semibold text-gray-700">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" required
+                        class="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out">
+                </div>
+
+                <!-- Description Input -->
+                <div class="flex flex-col">
+                    <label for="description" class="text-lg font-semibold text-gray-700">Description:</label>
+                    <textarea id="description" name="description" rows="4"
+                        class="mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit"
+                    class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300 ease-in-out flex items-center justify-center">
+                    <i class="fas fa-plus mr-2"></i> Add Inventory
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        function validateForm() {
+            const name = document.getElementById('name').value;
+            const namePattern = /^[A-Za-z\s]+$/;
+            
+            if (!namePattern.test(name)) {
+                alert('Name can only contain letters and spaces.');
+                return false;  // Prevent form submission
+            }
+
+            return true;  // Allow form submission
+        }
+    </script>
+</body>
+</html>
