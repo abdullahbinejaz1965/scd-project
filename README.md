@@ -8,8 +8,10 @@
 
 ## 📌 Overview
 
-**SCD Project** is a project by *Abdullah Binejaz* aimed at [brief description: what the project does — e.g. “managing uploads, SQL scripts, etc.”].  
-This project includes database schema files, upload functionality, and other supporting scripts/resources.  
+**SCD Project** is a project by *Abdullah Binejaz* developed as part of the **Software Construction & Development (SCD)** course.  
+The project demonstrates how to integrate a database with an application for managing and storing information.  
+It includes SQL schema files for database design, upload functionality for handling user data, and supporting scripts/resources that make it easier to set up and run the system.
+
 
 ---
 
@@ -27,14 +29,10 @@ This project includes database schema files, upload functionality, and other sup
 
 | Component | Technology / Tools |
 |---|---|
-| Backend / Logic | [e.g. PHP, Python, Node.js — put whatever you used] |
-| Database | [MySQL, SQLite, etc.] |
-| Frontend | [HTML, CSS, JS — if any] |
+| Backend / Logic | [Python] |
+| Database | [MySQL] |
+| Frontend | [HTML, CSS] |
 | Version Control | Git & GitHub |
 
 ---
-
-## 📂 File Structure
-
-Here’s a rough look at how your project is organized:
 
